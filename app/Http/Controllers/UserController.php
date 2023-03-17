@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
+use \Illuminate\Support;
 class UserController extends BaseController
 {
     public function store(Request $request)
@@ -22,11 +23,9 @@ class UserController extends BaseController
             return $this->sendError($validator->errors());
         }
 
+        $input['id'] = (string) Support\Str::uuid();
 
-        $data['id'] = (string) \Illuminate\Support\Str::uuid();
-
-
-        $user = User::create($data);
+        $user = User::create($input);
 
         return $this->sendResponse(new UserResource($user), 'User created.');
     }

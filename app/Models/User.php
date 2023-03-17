@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
     use HasFactory;
+    public $incrementing = false;
+
     protected $fillable = [
         'id', 'first_name', 'last_name', 'birthday', 'location',
     ];

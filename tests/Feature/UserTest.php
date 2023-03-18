@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Helpers\Helper;
 use App\Jobs\SendBirthdayEmail;
 use App\Models\User;
 use Carbon\Carbon;
@@ -114,4 +115,19 @@ class UserTest extends TestCase
     }
 
 
+    public function testDelayedSchedule()
+    {
+        $now = Carbon::now();
+        $user = User::create([
+            'id' =>$this->faker->uuid(),
+            'first_name'=>$this->faker->firstName,
+            'last_name' =>  $this->faker->lastName(),
+            'location'=> $now->getTimezone(),
+            'birthday'=> $now->addDay()->format('Y-m-d')
+        ]);
+        $delay = Helper::getDelayFromSchedule($user, $now->addDay()->setTime(6,0));
+        $this->assertEquals($delay, 180);
+
+
+    }
 }

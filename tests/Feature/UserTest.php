@@ -2,9 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Jobs\SendBirthdayEmail;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Bus;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -68,4 +71,47 @@ class UserTest extends TestCase
         $response->assertStatus(200);
 
     }
+
+    public function testIsUserBirthday()
+    {
+        $now = Carbon::now();
+        $user = User::create([
+            'id' =>$this->faker->uuid(),
+            'first_name'=>$this->faker->firstName,
+            'last_name' =>  $this->faker->lastName(),
+            'location'=> $now->getTimezone(),
+            'birthday'=> $now->format('Y-m-d')
+        ]);
+        $this->assertTrue($user->isBirthday());
+
+        $user = User::create([
+            'id' =>$this->faker->uuid(),
+            'first_name'=>$this->faker->firstName,
+            'last_name' =>  $this->faker->lastName(),
+            'location'=> $now->getTimezone(),
+            'birthday'=> $now->subDay()->format('Y-m-d')
+        ]);
+        $this->assertFalse($user->isBirthday());
+    }
+
+    public function testSendingMesssges(){
+
+        $now = Carbon::now();
+        $user = User::create([
+            'id' =>$this->faker->uuid(),
+            'first_name'=>$this->faker->firstName,
+            'last_name' =>  $this->faker->lastName(),
+            'location'=> $now->getTimezone(),
+            'birthday'=> $now->format('Y-m-d')
+        ]);
+
+        Bus::fake();
+
+        $this->artisan('send:birthday-messages')->assertSuccessful();
+
+        Bus::assertDispatched(SendBirthdayEmail::class);
+
+    }
+
+
 }

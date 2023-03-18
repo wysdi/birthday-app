@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\Helper;
 use App\Jobs\SendBirthdayEmail;
 use App\Models\User;
 use Carbon\Carbon;
@@ -34,23 +35,10 @@ class SendBirthDayMessages extends Command
 
         foreach ($users as $user) {
             if ($user->isBirthday()) {
-                $birthday = Carbon::parse($user->birthday);
-                $now = Carbon::now()->setTimezone($user->location);
-
-
-//                set schedule send at 9 AM
-                $scheduled = $birthday->setTimezone($user->location)
-                    ->setDay($now->day)
-                    ->setYear($now->year)
-                    ->setHour(9)
-                ;
-                // Check if current hour still not pass 9
-                if (!$scheduled->isPast()){
-                    $delay = $scheduled->diffInMinutes($now);
-//                    Use delay to send an email at specific times
+                $delay = Helper::getDelayFromSchedule($user, Carbon::now());
+                if ($delay) {
                     SendBirthdayEmail::dispatch($user)->delay($delay);
                 }
-
             }
         }
     }

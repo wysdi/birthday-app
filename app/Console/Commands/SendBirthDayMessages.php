@@ -33,12 +33,11 @@ class SendBirthDayMessages extends Command
 
 
         foreach ($users as $user) {
-            $birthday = Carbon::parse($user->birthday);
-            $now = Carbon::now()->setTimezone($user->location);
+            if ($user->isBirthday()) {
+                $birthday = Carbon::parse($user->birthday);
+                $now = Carbon::now()->setTimezone($user->location);
 
 
-
-            if ($birthday->day == $now->day && $birthday->month == $now->month) {
 //                set schedule send at 9 AM
                 $scheduled = $birthday->setTimezone($user->location)
                     ->setDay($now->day)

@@ -31,13 +31,13 @@ class SendBirthDayMessages extends Command
     {
         //
         $users = User::all();
-
+        $now = Carbon::now();
 
         foreach ($users as $user) {
             if ($user->isBirthday()) {
                 $delay = Helper::getDelayFromSchedule($user, Carbon::now());
                 if ($delay) {
-                    SendBirthdayEmail::dispatch($user)->delay($delay);
+                    SendBirthdayEmail::dispatch($user)->delay($now->addMinutes($delay));
                 }
             }
         }

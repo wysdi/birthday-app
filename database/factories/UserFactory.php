@@ -19,9 +19,10 @@ class UserFactory extends Factory
     {
         return [
             'id'=> fake()->uuid(),
+            'email'=> fake()->email(),
             'first_name' => fake()->firstName(),
             'last_name' =>  fake()->lastName(),
-            'location'=> fake()->timezone,
+            'location'=> 'Asia/Jakarta',
             'birthday'=> fake()->date
 
         ];

@@ -30,6 +30,7 @@ class UserTest extends TestCase
         $name = $this->faker->firstName();
         $data = [
             'first_name' => $name,
+            'email'=> $this->faker->email,
             'last_name' =>  $this->faker->lastName(),
             'location'=> $this->faker->timezone,
             'birthday'=> $this->faker->date
@@ -48,6 +49,7 @@ class UserTest extends TestCase
     {
         $name = $this->faker->lastName();
         $data = [
+            'email'=> $this->faker->email,
             'first_name' => $this->faker->firstName(),
             'last_name' =>  $name,
             'location'=> $this->faker->timezone,
@@ -78,6 +80,7 @@ class UserTest extends TestCase
         $now = Carbon::now();
         $user = User::create([
             'id' =>$this->faker->uuid(),
+            'email'=> $this->faker->email,
             'first_name'=>$this->faker->firstName,
             'last_name' =>  $this->faker->lastName(),
             'location'=> $now->getTimezone(),
@@ -87,6 +90,7 @@ class UserTest extends TestCase
 
         $user = User::create([
             'id' =>$this->faker->uuid(),
+            'email'=> $this->faker->email,
             'first_name'=>$this->faker->firstName,
             'last_name' =>  $this->faker->lastName(),
             'location'=> $now->getTimezone(),
@@ -100,6 +104,7 @@ class UserTest extends TestCase
         $now = Carbon::now();
         $user = User::create([
             'id' =>$this->faker->uuid(),
+            'email'=> $this->faker->email,
             'first_name'=>$this->faker->firstName,
             'last_name' =>  $this->faker->lastName(),
             'location'=> $now->getTimezone(),
@@ -120,6 +125,7 @@ class UserTest extends TestCase
         $now = Carbon::now();
         $user = User::create([
             'id' =>$this->faker->uuid(),
+            'email'=> $this->faker->email,
             'first_name'=>$this->faker->firstName,
             'last_name' =>  $this->faker->lastName(),
             'location'=> $now->getTimezone(),

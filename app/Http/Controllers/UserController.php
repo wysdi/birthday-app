@@ -15,6 +15,7 @@ class UserController extends BaseController
         $validator = Validator::make($input, [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
+            'email' => 'required|email',
             'birthday' => 'required|date',
             'location' => 'required|string',
 
@@ -36,10 +37,12 @@ class UserController extends BaseController
 
         $input = $request->all();
         $validator = Validator::make($input, [
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'birthday' => 'required|date',
-            'location' => 'required|string',
+            'first_name' => 'nullable|string',
+            'last_name' => 'nullable|string',
+            'birthday' => 'nullable|date',
+            'location' => 'nullable|string',
+            'email' => 'nullable|email',
+
         ]);
         if($validator->fails()){
             return $this->sendError($validator->errors());

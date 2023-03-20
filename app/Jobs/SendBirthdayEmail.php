@@ -36,7 +36,7 @@ class SendBirthdayEmail implements ShouldQueue
         //
         $endpoint = 'https://email-service.digitalenvision.com.au/send-email';
         $response = Http::post($endpoint, [
-            'email'=>'wynsudiarta87@gmail.com',
+            'email'=>$this->user['email'],
             'message' => "Hey, {$this->user['full_name']} it’s your birthday",
         ]);
         if ($response->ok()) {

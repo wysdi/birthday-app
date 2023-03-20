@@ -12,7 +12,12 @@ class User extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'id', 'first_name', 'last_name', 'birthday', 'location',
+        'id',
+        'email',
+        'first_name',
+        'last_name',
+        'birthday',
+        'location',
     ];
 
     protected $appends = ['full_name'];
